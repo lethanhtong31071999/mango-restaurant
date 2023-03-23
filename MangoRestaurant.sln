@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Web", "Mango.Web\Mang
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3935A5D7-D920-4DF9-A144-904C969FAAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.Product.API", "Mango.Services.Product.API\Mango.Services.Product.API.csproj", "{9195539F-F4BF-4544-99D9-EF24D4CF67D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.ProductAPI", "Mango.Services.Product.API\Mango.Services.ProductAPI.csproj", "{9195539F-F4BF-4544-99D9-EF24D4CF67D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

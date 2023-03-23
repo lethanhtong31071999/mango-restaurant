@@ -1,11 +1,19 @@
-var builder = WebApplication.CreateBuilder(args);
+using Mango.Services.ProductAPI.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+IConfiguration configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Database
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+);
 
 var app = builder.Build();
 

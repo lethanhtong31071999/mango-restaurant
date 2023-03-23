@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "+q0PNr2pPj+0wht217ffjT9LFOwYrbu6prljVOPAjX0=",
-  "Source": "Mango.Services.Product.API",
-  "BasePath": "_content/Mango.Services.Product.API",
+  "Hash": "WHy163NFvM1007n7zY3tTpRfactJkDWOaKKc3aAPvAA=",
+  "Source": "Mango.Services.ProductAPI",
+  "BasePath": "_content/Mango.Services.ProductAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
