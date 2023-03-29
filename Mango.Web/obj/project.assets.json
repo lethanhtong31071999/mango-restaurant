@@ -8,23 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\roy.le\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\maday\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Github_project\\MangoRestaurant\\Mango.Web\\Mango.Web.csproj",
+      "projectUniqueName": "D:\\source-fork\\mango-restaurant\\Mango.Web\\Mango.Web.csproj",
       "projectName": "Mango.Web",
-      "projectPath": "E:\\Github_project\\MangoRestaurant\\Mango.Web\\Mango.Web.csproj",
-      "packagesPath": "C:\\Users\\roy.le\\.nuget\\packages\\",
-      "outputPath": "E:\\Github_project\\MangoRestaurant\\Mango.Web\\obj\\",
+      "projectPath": "D:\\source-fork\\mango-restaurant\\Mango.Web\\Mango.Web.csproj",
+      "packagesPath": "C:\\Users\\maday\\.nuget\\packages\\",
+      "outputPath": "D:\\source-fork\\mango-restaurant\\Mango.Web\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\roy.le\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\maday\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -55,7 +51,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -67,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.310\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zxxdRHLQfTU/C1DleTNKEErmWoc9JdkpC6IdxEqJErJj7wdLctKOes+jVzlNokSbgqHSCWCr/eaPGh7+N0D8Rg==",
+  "dgSpecHash": "iU5NKhcTK/zqKI3a7JWK0DibM0IhNJuKQg0toKjyBNmtzeFo1TOpI6zMRMb2mBPoeg27Y+613KU1A0SwfAXKZA==",
   "success": true,
-  "projectFilePath": "E:\\Github_project\\MangoRestaurant\\Mango.Web\\Mango.Web.csproj",
+  "projectFilePath": "D:\\source-fork\\mango-restaurant\\Mango.Web\\Mango.Web.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
