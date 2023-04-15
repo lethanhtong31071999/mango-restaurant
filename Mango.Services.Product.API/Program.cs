@@ -1,6 +1,7 @@
 using AutoMapper;
 using Mango.Services.ProductAPI;
 using Mango.Services.ProductAPI.DbContexts;
+using Mango.Services.ProductAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Auto Mapper
+// Injection dependency
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddScoped<IProductRepository, IProductRepository>();   
 
 var app = builder.Build();
 
