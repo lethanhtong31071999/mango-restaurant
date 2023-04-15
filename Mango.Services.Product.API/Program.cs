@@ -1,6 +1,7 @@
 using AutoMapper;
 using Mango.Services.ProductAPI;
 using Mango.Services.ProductAPI.DbContexts;
+using Mango.Services.ProductAPI.Repository;
 using Mango.Services.ProductAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Injection dependency
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-builder.Services.AddScoped<IProductRepository, IProductRepository>();   
+builder.Services.AddScoped<IProductRepository, ProductRepository>();   
 
 var app = builder.Build();
 
