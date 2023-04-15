@@ -18,9 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 // Auto Mapper
-IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-builder.Services.AddSingleton(mapper);
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 var app = builder.Build();
 
