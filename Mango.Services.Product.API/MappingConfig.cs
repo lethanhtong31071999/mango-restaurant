@@ -4,23 +4,20 @@ using Mango.Services.ProductAPI.Models.Dto;
 
 namespace Mango.Services.ProductAPI
 {
-    public class MappingConfig
+    public class MappingConfig : Profile
     {
-        public static MapperConfiguration RegisterMaps()
-        {
-            var mappingConfig = new MapperConfiguration(config =>
-            {
-                config.CreateMap<Product, ProductDto>()
-                .ForMember(pDto => pDto.ProductId, opt => opt.MapFrom(p => p.ProductId))
-                .ForMember(pDto => pDto.Name, opt => opt.MapFrom(p => p.Name))
-                .ForMember(pDto => pDto.Price, opt => opt.MapFrom(p => p.Price))
-                .ForMember(pDto => pDto.Description, opt => opt.MapFrom(p => p.Description))
-                .ForMember(pDto => pDto.ImageUrl, opt => opt.MapFrom(p => p.ImageUrl))
-                .ForMember(pDto => pDto.CatagoryName, opt => opt.MapFrom(p => p.CategoryName))
-                .ReverseMap();
-            });
+        public MappingConfig() {
+            CreateMap<ProductDto, Product>()
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.CategoryName))
 
-            return mappingConfig;
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+
+                .ReverseMap();
         }
+       
     }
 }
