@@ -16,7 +16,7 @@ namespace Mango.Services.ProductAPI
                 .ForMember(pDto => pDto.Price, opt => opt.MapFrom(p => p.Price))
                 .ForMember(pDto => pDto.Description, opt => opt.MapFrom(p => p.Description))
                 .ForMember(pDto => pDto.ImageUrl, opt => opt.MapFrom(p => p.ImageUrl))
-                .ForMember(pDto => pDto.CatagoryName, opt => opt.MapFrom(p => p.CatagoryName))
+                .ForMember(pDto => pDto.CatagoryName, opt => opt.MapFrom(p => p.CategoryName))
                 .ReverseMap();
             });
 

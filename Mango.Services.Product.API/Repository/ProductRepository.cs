@@ -50,7 +50,7 @@ namespace Mango.Services.ProductAPI.Repository
         {
             IQueryable<Product> query = tracked ? _productDb : _productDb.AsNoTracking();
             var productsFromDb = await query.ToListAsync<Product>();
-            return _mapper.Map<IEnumerable<ProductDto>>(productsFromDb);
+            return _mapper.Map<List<ProductDto>>(productsFromDb);
         }
 
         public async Task Save()
