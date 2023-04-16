@@ -92,9 +92,10 @@ namespace Mango.Services.ProductAPI.Controllers
             try
             {
                 var productDTO = await _productRepo.CreateUpdateProduct(productDto);
+                await _productRepo.Save();
                 _reponseDto.IsSuccess = true;
                 _reponseDto.Result = productDTO;
-                return CreatedAtRoute("GetProduct", new {productId = productDTO.ProductId}, _reponseDto);
+                return CreatedAtRoute(nameof(GetProductById), new {productId = productDTO.ProductId}, _reponseDto);
             }
             catch (Exception ex)
             {
@@ -114,9 +115,11 @@ namespace Mango.Services.ProductAPI.Controllers
             try
             {
                 var productDTOs = await _productRepo.CreateUpdateProduct(productDto);
+                await _productRepo.Save();
                 _reponseDto.IsSuccess = true;
                 _reponseDto.Result = productDTOs;
                 _reponseDto.StatusCode = HttpStatusCode.OK;
+                return Ok(_reponseDto);
             }
             catch (Exception ex)
             {
@@ -143,7 +146,9 @@ namespace Mango.Services.ProductAPI.Controllers
                 var productFromDb = await _productRepo.GetProductById(productId);
                 if (productFromDb != null)
                 {
-                    _reponseDto.IsSuccess = await _productRepo.DeleteProduct(_mapper.Map<ProductDto>(productFromDb));
+                    await _productRepo.DeleteProduct(_mapper.Map<ProductDto>(productFromDb));
+                    await _productRepo.Save();
+                    _reponseDto.IsSuccess = true;
                     _reponseDto.StatusCode=HttpStatusCode.OK;
                     return Ok(_reponseDto);
                 }
