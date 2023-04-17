@@ -1,33 +1,72 @@
-﻿using Mango.Web.Models.Dto;
+﻿using Mango.Web.Models;
+using Mango.Web.Models.Dto;
 using Mango.Web.Services.IServices;
 
 namespace Mango.Web.Services
 {
     public class ProductService : BaseService, IProductService
     {
-        public Task<T> CreateProductAsync<T>(ProductDto productDto)
+        private readonly IHttpClientFactory _client;
+        public ProductService(IHttpClientFactory client) : base(client)
         {
-            throw new NotImplementedException();
+            _client = client;
         }
 
-        public Task<T> DeleteProductAsync<T>(int productId)
+        public async Task<ResponseAPI> CreateProductAsync(ProductDto productDto)
         {
-            throw new NotImplementedException();
+            var request = new RequestAPI()
+            {
+                AccessToken = "",
+                Data = productDto,
+                Method = SD.ApiType.POST,
+                Url = String.Format("{0}/create", SD.ProductAPIBase)
+            };
+            return await base.SendAsync(request);
         }
 
-        public Task<T> GetAllProductsAsync<T>()
+        public async Task<ResponseAPI> DeleteProductAsync(int productId)
         {
-            throw new NotImplementedException();
+            var request = new RequestAPI()
+            {
+                AccessToken = "",
+                Method = SD.ApiType.DELETE,
+                Url = String.Format("{0}/{1}", SD.ProductAPIBase, productId)
+            };
+            return await base.SendAsync(request);
         }
 
-        public Task<T> GetProductByIdAsync<T>(int productId)
+        public async Task<ResponseAPI> GetAllProductsAsync()
         {
-            throw new NotImplementedException();
+            var request = new RequestAPI()
+            {
+                AccessToken = "",
+                Method = SD.ApiType.GET,
+                Url = SD.ProductAPIBase
+            };
+            return await base.SendAsync(request);
         }
 
-        public Task<T> UpdateProductAsync<T>(ProductDto productDto)
+        public async Task<ResponseAPI> GetProductByIdAsync(int productId)
         {
-            throw new NotImplementedException();
+            var request = new RequestAPI()
+            {
+                AccessToken = "",
+                Method = SD.ApiType.GET,
+                Url = String.Format("{0}/{1}", SD.ProductAPIBase, productId)
+            };
+            return await base.SendAsync(request);
+        }
+
+        public async Task<ResponseAPI> UpdateProductAsync(ProductDto productDto)
+        {
+            var request = new RequestAPI()
+            {
+                AccessToken = "",
+                Method = SD.ApiType.PUT,
+                Data = productDto,
+                Url = String.Format("{0}/Update", SD.ProductAPIBase)
+            };
+            return await base.SendAsync(request);
         }
     }
 }

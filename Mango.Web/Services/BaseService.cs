@@ -1,20 +1,72 @@
 ﻿using Mango.Web.Models;
 using Mango.Web.Services.IServices;
+using Newtonsoft.Json;
 
 namespace Mango.Web.Services
 {
     public class BaseService : IBaseService
     {
-        public ResponseAPI ResponseModel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private readonly IHttpClientFactory _httpClient;
+        public ResponseAPI ResponseModel { get; set; }
+
+        public BaseService(IHttpClientFactory client)
+        {
+            _httpClient = client;
+            ResponseModel = new ResponseAPI();
+        }
 
         public void Dispose()
         {
             throw new NotImplementedException();
         }
 
-        public Task SendAsync<T>(RequestAPI request)
+        public async Task<ResponseAPI> SendAsync(RequestAPI request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var client = _httpClient.CreateClient("MangoAPI");
+                var requestMessage = new HttpRequestMessage();
+                requestMessage.Headers.Add("Accept", "application/json");
+                requestMessage.RequestUri = new Uri(request.Url);
+                client.DefaultRequestHeaders.Clear();
+                if (request.Data != null)
+                {
+                    requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request.Data));
+                }
+                switch (request.Method)
+                {
+                    case SD.ApiType.POST:
+                        requestMessage.Method = HttpMethod.Post;
+                        break;
+                    case SD.ApiType.PUT:
+                        requestMessage.Method = HttpMethod.Put;
+                        break;
+                    case SD.ApiType.DELETE:
+                        requestMessage.Method = HttpMethod.Delete;
+                        break;
+                    default:
+                        requestMessage.Method = HttpMethod.Get;
+                        break;
+                }
+                HttpResponseMessage responseMessage = await client.SendAsync(requestMessage);
+                string responseContentJson = await responseMessage.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseAPI>(responseContentJson);
+                if(res.IsSuccess)
+                {
+                    ResponseModel.IsSuccess = res.IsSuccess;
+                    ResponseModel.StatusCode = res.StatusCode;
+                    ResponseModel.Result = res.Result;
+                    return ResponseModel;
+                }
+            }
+            catch (Exception ex)
+            {
+                ResponseModel.IsSuccess = false;
+                ResponseModel.ErrorMessages.Add(ex.Message);
+                ResponseModel.DisplayMessage = "Error";
+                ResponseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+            }
+            return ResponseModel;
         }
     }
 }

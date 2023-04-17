@@ -1,13 +1,14 @@
-﻿using Mango.Web.Models.Dto;
+﻿using Mango.Web.Models;
+using Mango.Web.Models.Dto;
 
 namespace Mango.Web.Services.IServices
 {
     public interface IProductService
     {
-        Task<T> GetAllProductsAsync<T>();
-        Task<T> GetProductByIdAsync<T>(int productId);
-        Task<T> CreateProductAsync<T>(ProductDto productDto);
-        Task<T> UpdateProductAsync<T>(ProductDto productDto);
-        Task<T> DeleteProductAsync<T>(int productId);
+        Task<ResponseAPI> GetAllProductsAsync();
+        Task<ResponseAPI> GetProductByIdAsync(int productId);
+        Task<ResponseAPI> CreateProductAsync(ProductDto productDto);
+        Task<ResponseAPI> UpdateProductAsync(ProductDto productDto);
+        Task<ResponseAPI> DeleteProductAsync(int productId);
     }
 }
