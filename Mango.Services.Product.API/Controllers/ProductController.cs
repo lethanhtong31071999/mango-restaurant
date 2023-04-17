@@ -132,6 +132,10 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpDelete]
         [Route("{productId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<object> DeleteProduct([FromRoute] int productId)
         {
             try
@@ -143,13 +147,13 @@ namespace Mango.Services.ProductAPI.Controllers
                     _reponseDto.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_reponseDto);
                 }
-                var productFromDb = await _productRepo.GetProductById(productId);
-                if (productFromDb != null)
+                var productDto = await _productRepo.GetProductById(productId);
+                if (productDto != null)
                 {
-                    await _productRepo.DeleteProduct(_mapper.Map<ProductDto>(productFromDb));
+                    await _productRepo.DeleteProduct(productDto);
                     await _productRepo.Save();
                     _reponseDto.IsSuccess = true;
-                    _reponseDto.StatusCode=HttpStatusCode.OK;
+                    _reponseDto.StatusCode=HttpStatusCode.NoContent;
                     return Ok(_reponseDto);
                 }
                 else
