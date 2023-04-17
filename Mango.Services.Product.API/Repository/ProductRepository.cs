@@ -19,18 +19,22 @@ namespace Mango.Services.ProductAPI.Repository
             _db = db;
             _productDb = db.Products;
         }
-        public async Task<ProductDto> CreateUpdateProduct(ProductDto productDto)
+        public async Task<Product> CreateUpdateProductAsync(Product product)
         {
-            var product = _mapper.Map<Product>(productDto);
-            await _productDb.AddAsync(product);
-            return productDto;
+            if (product.ProductId == 0)
+            {
+                await _productDb.AddAsync(product);
+                return product;
+            }
+            _productDb.Update(product);
+            return product;
         }
 
-        public async Task<bool> DeleteProduct(ProductDto product)
+        public bool DeleteProduct(Product product)
         {
             try
             {
-                _productDb.Remove(_mapper.Map<Product>(product));
+                _productDb.Remove(product);
                 return true;
             }
             catch (Exception ex)
@@ -39,21 +43,34 @@ namespace Mango.Services.ProductAPI.Repository
             }
         }
 
-        public async Task<ProductDto> GetProductById(int productId, bool tracked = true)
+        public bool DeleteRangeProducts(List<Product> products)
+        {
+            try
+            {
+                _productDb.RemoveRange(products);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<Product> GetProductByIdAsync(int productId, bool tracked = true)
         {
             IQueryable<Product> query = tracked ? _productDb : _productDb.AsNoTracking();
             var productFromDb = await query.FirstOrDefaultAsync(x => x.ProductId == productId);
-            return _mapper.Map<ProductDto>(productFromDb);
+            return productFromDb;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(bool tracked = true)
+        public async Task<IEnumerable<Product>> GetProductsAsync(bool tracked = true)
         {
             IQueryable<Product> query = tracked ? _productDb : _productDb.AsNoTracking();
             var productsFromDb = await query.ToListAsync<Product>();
-            return _mapper.Map<List<ProductDto>>(productsFromDb);
+            return productsFromDb;
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
         }
