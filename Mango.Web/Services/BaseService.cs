@@ -17,7 +17,7 @@ namespace Mango.Web.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
 
         public async Task<ResponseAPI> SendAsync(RequestAPI request)
@@ -51,13 +51,14 @@ namespace Mango.Web.Services
                 HttpResponseMessage responseMessage = await client.SendAsync(requestMessage);
                 string responseContentJson = await responseMessage.Content.ReadAsStringAsync();
                 var res = JsonConvert.DeserializeObject<ResponseAPI>(responseContentJson);
-                if(res.IsSuccess)
+                if(res != null && res.IsSuccess)
                 {
                     ResponseModel.IsSuccess = res.IsSuccess;
                     ResponseModel.StatusCode = res.StatusCode;
                     ResponseModel.Result = res.Result;
                     return ResponseModel;
                 }
+                throw new Exception(responseContentJson);
             }
             catch (Exception ex)
             {

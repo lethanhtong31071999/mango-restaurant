@@ -1,77 +1,44 @@
-﻿    <!-- Jumbotron section -->
-<div class="p-5 bg-body-secondary">
-    <div class="container">
-        <h1 class="display-6">Welcome to Mango Restaurant</h1>
-        <p class="lead">Discover the delicious world of food with us.</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Let's go</a>
-    </div>
-</div>
+﻿@model List<ProductDto>
 
-<!-- Featured dishes section -->
-<div class="container-fluid py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Featured Dishes</h2>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/350x200"
-                         alt="Dish 1"
-                         class="card-img-top" />
-                    <div class="card-body">
-                        <h5 class="card-title">Dish 1</h5>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                            ultrices lectus et augue vehicula, eu auctor velit facilisis.
-                        </p>
-                        <a href="#" class="btn btn-primary">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/350x200"
-                         alt="Dish 2"
-                         class="card-img-top" />
-                    <div class="card-body">
-                        <h5 class="card-title">Dish 2</h5>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                            ultrices lectus et augue vehicula, eu auctor velit facilisis.
-                        </p>
-                        <a href="#" class="btn btn-primary">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/350x200"
-                         alt="Dish 3"
-                         class="card-img-top" />
-                    <div class="card-body">
-                        <h5 class="card-title">Dish 3</h5>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                            ultrices lectus et augue vehicula, eu auctor velit facilisis.
-                        </p>
-                        <a href="#" class="btn btn-primary">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/350x200"
-                         alt="Dish 3"
-                         class="card-img-top" />
-                    <div class="card-body">
-                        <h5 class="card-title">Dish 4</h5>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                            ultrices lectus et augue vehicula, eu auctor velit facilisis.
-                        </p>
-                        <a href="#" class="btn btn-primary">Order Now</a>
-                    </div>
-                </div>
-            </div>
+<div>
+    <!-- Jumbotron section -->
+    <div class="p-5 bg-light">
+        <div class="container-fluid text-center">
+            <h1 class="display-6">Welcome to Mango Restaurant</h1>
+            <p class="lead">Discover the delicious world of food with us.</p>
         </div>
+    </div>
+
+    <div class="container py-3">
+        <h2 class="text-center mb-5">Best seller</h2>
+        @if (Model.Count > 0)
+        {
+            <div class="row">
+                @foreach (var item in @Model)
+                {
+                    <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                        <div class="card h-100">
+                            <img src="@item.ImageUrl"
+                                 alt="Food @item.ProductId"
+                                 class="card-img" style="width: 100%; aspect-ratio: 2" />
+                            <div class="card-body">
+                                <h5 class="card-title text-capitalize">@item.Name</h5>
+                                <p class="card-text text-secondary">
+                                    @Html.Raw(@item.Description)
+                                </p>
+                                <a href="#" class="btn btn-primary text-capitalize w-100">order now</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Oops!</strong> We are uploading new products as soon as posible. Hope you coming back later.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
     </div>
 </div>

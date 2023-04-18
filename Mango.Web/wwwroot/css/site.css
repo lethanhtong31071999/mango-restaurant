@@ -5,14 +5,21 @@
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 14px;
+    }
 }
 
 html {
     position: relative;
     min-height: 100%;
-    font-size: 14px;
+    font-size: 16px;
 }
 
+.nav-link.active {
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+}
