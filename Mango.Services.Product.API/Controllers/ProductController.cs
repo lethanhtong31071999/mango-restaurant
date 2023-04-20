@@ -23,37 +23,20 @@ namespace Mango.Services.ProductAPI.Controllers
             _reponseDto = new ResponseDto();
         }
 
-        [HttpDelete]
-        public async Task<object> DeleteProducts()
-        {
-            try
-            {
-                var products = await _productRepo.GetProductsAsync(tracked: false);
-                _productRepo.DeleteRangeProducts(products.ToList<Product>());
-                await _productRepo.SaveAsync();
-                _reponseDto.IsSuccess = true;
-                _reponseDto.StatusCode = HttpStatusCode.NoContent;
-                return Ok(_reponseDto);
-            }
-            catch (Exception ex)
-            {
-                _reponseDto.IsSuccess = false;
-                _reponseDto.ErrorMessages.Add(ex.Message);
-                _reponseDto.StatusCode = HttpStatusCode.InternalServerError;
-            }
-            return _reponseDto;
-        }
-
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<object> GetProducts()
+        public async Task<object> GetProducts([FromQuery] FilterProduct filter)
         {
             try
             {
-                var products = await _productRepo.GetProductsAsync(tracked: false);
+                if (filter == null)
+                {
+                    filter = new FilterProduct();
+                }
+                var paginatedProducts = await _productRepo.GetProductsAsync(filter, tracked: false);
                 _reponseDto.IsSuccess = true;
-                _reponseDto.Result = _mapper.Map<List<ProductDto>>(products);
+                _reponseDto.Result = paginatedProducts;
                 _reponseDto.StatusCode = HttpStatusCode.OK;
                 return Ok(_reponseDto);
             }

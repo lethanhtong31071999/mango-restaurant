@@ -5,6 +5,7 @@ using Mango.Services.ProductAPI.Models.Dto;
 using Mango.Services.ProductAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Mango.Services.ProductAPI.Repository
 {
@@ -63,11 +64,57 @@ namespace Mango.Services.ProductAPI.Repository
             return productFromDb;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(bool tracked = true)
+        public async Task<PaginationResult<ProductDto>> GetProductsAsync(FilterProduct filter, bool tracked = true)
         {
             IQueryable<Product> query = tracked ? _productDb : _productDb.AsNoTracking();
+            var result = new PaginationResult<ProductDto>()
+            {
+                Filter = filter,
+                CurrentPage = filter.Page,
+                TotalItems = query.Count()
+            };
+
+            // Name
+            if (!String.IsNullOrEmpty(filter.SearchTerm))
+            {
+                var searchName = filter.SearchTerm;
+                query = _productDb.FromSqlRaw("Select * from Product WHERE name LIKE '%{searchName}%'");
+            }
+
+            // Category           
+
+            // Sort
+            if (!String.IsNullOrEmpty(filter.Sort))
+            {
+                filter.Sort.Split('+').ToList().ForEach(filter =>
+                {
+                    if (filter == SD.NAME_DESC)
+                    {
+                        query = query.OrderByDescending(x => x.Name);
+                    }
+                    else if (filter == SD.NAME_ASC)
+                    {
+                        query = query.OrderByDescending(x => x.Name).Reverse();
+                    }
+                    else if (filter == SD.PRICE_DESC)
+                    {
+                        query = query.OrderByDescending(x => x.Name);
+                    }
+                    else if (filter == SD.PRICE_ASC)
+                    {
+                        query = query.OrderByDescending(x => x.Name).Reverse();
+                    }
+                });
+            }
+
+
+            result.TotalFilteredItems = query.Count();
+            result.TotalPages = (int)Math.Ceiling((double)result.TotalFilteredItems / filter.Length);
+            query = query.Skip((filter.Page - 1) * filter.Length).Take(filter.Length);
             var productsFromDb = await query.ToListAsync<Product>();
-            return productsFromDb;
+            result.Data = _mapper.Map<List<ProductDto>>(productsFromDb);
+
+            return result;
         }
 
         public async Task SaveAsync()
