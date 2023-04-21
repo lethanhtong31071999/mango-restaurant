@@ -10,5 +10,6 @@
             PUT,
             DELETE,
         }
+        public static int MAX_ITEMS = 10;
     }
 }

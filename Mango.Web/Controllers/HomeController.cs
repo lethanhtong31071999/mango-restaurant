@@ -25,7 +25,9 @@ namespace Mango.Web.Controllers
                 TempData["error"] = "Cannot get products!";
                 return View(model);
             }
-            model = JsonConvert.DeserializeObject<List<ProductDto>>(res.Result.ToString());
+            // Temporarily place full items -> we change after having the best seller
+            var pagination = JsonConvert.DeserializeObject<PaginationResult<ProductDto>>(res.Result.ToString());
+            model = pagination.Data;
             return View(model);
         }
 
