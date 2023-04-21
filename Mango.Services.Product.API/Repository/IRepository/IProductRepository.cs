@@ -9,6 +9,7 @@ namespace Mango.Services.ProductAPI.Repository.IRepository
         Task<Product> GetProductByIdAsync(int productId, bool tracked = true);
         Task<PaginationResult<ProductDto>> GetProductsAsync(FilterProduct filter, bool tracked = true);
         Task<Product> CreateUpdateProductAsync(Product product);
+        Task<List<Product>> CreateRangeProductsAsync(List<Product> products);
         bool DeleteProduct(Product product);
         bool DeleteRangeProducts(List<Product> products);
         Task SaveAsync();

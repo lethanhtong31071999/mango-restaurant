@@ -13,14 +13,16 @@ namespace Mango.Services.ProductAPI.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepo;
+        private readonly IWebHostEnvironment _env;
         private ResponseDto _reponseDto;
         private readonly IMapper _mapper;
 
-        public ProductController(IProductRepository productRepo, IMapper mapper)
+        public ProductController(IProductRepository productRepo, IMapper mapper, IWebHostEnvironment env)
         {
             _productRepo = productRepo;
             _mapper = mapper;
             _reponseDto = new ResponseDto();
+            _env = env;
         }
 
         [HttpGet]
@@ -101,6 +103,36 @@ namespace Mango.Services.ProductAPI.Controllers
                 _reponseDto.Result = _mapper.Map<ProductDto>(product);
                 _reponseDto.IsSuccess = true;
                 return CreatedAtAction(nameof(GetProductById), new { productId = product.ProductId }, _reponseDto);
+            }
+            catch (Exception ex)
+            {
+                _reponseDto.IsSuccess = false;
+                _reponseDto.ErrorMessages.Add(ex.Message);
+                _reponseDto.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            return _reponseDto;
+        }
+
+        [HttpPost]
+        [Route("create-by-file")]
+        public async Task<object> CreateProductByFile(IFormFile file)
+        {
+            try
+            {
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest("No file uploaded.");
+
+                }
+                string productFolder = Path.Combine(_env.WebRootPath, @"file\products");
+                string fileName = String.Format("{0}{1}", Guid.NewGuid().ToString(), file.Name);
+                string filePath = Path.Combine(productFolder, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                _reponseDto.IsSuccess = true;
+                
                 return Ok(_reponseDto);
             }
             catch (Exception ex)

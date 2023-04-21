@@ -24,9 +24,11 @@ namespace Mango.Services.ProductAPI.Repository
         {
             if (product.ProductId == 0)
             {
+                // Create
                 await _productDb.AddAsync(product);
                 return product;
             }
+            // Update
             _productDb.Update(product);
             return product;
         }
@@ -120,6 +122,16 @@ namespace Mango.Services.ProductAPI.Repository
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<List<Product>> CreateRangeProductsAsync(List<Product> products)
+        {
+            if (products.Count > 0)
+            {
+                await _productDb.AddRangeAsync(products);
+                return products;
+            }
+            return null;
         }
     }
 }
