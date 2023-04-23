@@ -10,15 +10,28 @@
           crossorigin="anonymous" />
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Template Admin Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Mango.Web.styles.css" asp-append-version="true" />
     <title>Mango Restaurant</title>
 
 </head>
-<body>
+<body class="bg-light">
     <div class="d-flex flex-column min-vh-100">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-white box-shadow-sm">
+            <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white box-shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" asp-action="Index" asp-controller="Home">
                         <div style="width: 60px; height: 60px; overflow: hidden">
@@ -37,10 +50,10 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto fs-5">
                             <li class="nav-item pe-2">
-                                <a class="nav-link" asp-action="Index" asp-controller="Home" >Home</a>
+                                <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
                             </li>
                             <li class="nav-item px-2">
-                                <a class="nav-link" asp-action="Index" asp-controller="Menu" >Menu</a>
+                                <a class="nav-link" asp-action="Index" asp-controller="Menu">Menu</a>
                             </li>
                             <li class="nav-item px-2">
                                 <a class="nav-link" asp-action="AboutUs" asp-controller="Home">About Us</a>
@@ -53,8 +66,8 @@
                 </div>
             </nav>
         </header>
-        <div class="render">
-            <main role="main">
+        <div class="render flex-grow-1 d-flex flex-column">
+            <main role="main" class="flex-grow-1 d-flex flex-column">
                 @RenderBody()
             </main>
         </div>
@@ -93,6 +106,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
+    <script src="~/js/main.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
