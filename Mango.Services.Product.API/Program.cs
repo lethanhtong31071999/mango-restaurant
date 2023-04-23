@@ -4,6 +4,7 @@ using Mango.Services.ProductAPI.DbContexts;
 using Mango.Services.ProductAPI.Repository;
 using Mango.Services.ProductAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
@@ -21,7 +22,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Injection dependency
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-builder.Services.AddScoped<IProductRepository, ProductRepository>();   
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Excel: EPPLUS
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
 
 var app = builder.Build();
 

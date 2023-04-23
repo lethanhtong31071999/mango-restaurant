@@ -5,6 +5,8 @@ using Mango.Services.ProductAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using ExcelDataReader;
+using OfficeOpenXml;
+using System.Drawing;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
@@ -89,6 +91,53 @@ namespace Mango.Services.ProductAPI.Controllers
             return _reponseDto;
         }
 
+        [HttpGet]
+        [Route("get-template-file")]
+        public object GetTemplateProductExcelFile()
+        {
+            try
+            {
+                using var package = new ExcelPackage();
+                {
+                    // Excel
+                    var worksheet = package.Workbook.Worksheets.Add(SD.SheetNameProduct);
+                    worksheet.DefaultColWidth = 10;
+                    worksheet.DefaultRowHeight = 20;
+                    worksheet.Cells["A1"].Value = "Name";
+                    worksheet.Cells["B1"].Value = "Description";
+                    worksheet.Cells["C1"].Value = "Price";
+                    worksheet.Cells["D1"].Value = "Category Name";
+                    worksheet.Cells["E1"].Value = "Image Url";
+
+                    // Style
+                    worksheet.Cells["A1"].Style.Font.Bold = true;
+                    worksheet.Cells["B1"].Style.Font.Bold = true;
+                    worksheet.Cells["C1"].Style.Font.Bold = true;
+                    worksheet.Cells["D1"].Style.Font.Bold = true;
+                    worksheet.Cells["E1"].Style.Font.Bold = true;
+
+                    worksheet.Cells["A2"].Style.Numberformat.Format = "@";
+                    worksheet.Cells["B2"].Style.Numberformat.Format = "@";
+                    worksheet.Cells["C2"].Style.Numberformat.Format = "@";
+                    worksheet.Cells["D2"].Style.Numberformat.Format = "@";
+                    worksheet.Cells["E2"].Style.Numberformat.Format = "@";
+
+
+                    // Save the Excel package to a file
+                    byte[] fileContents = package.GetAsByteArray();
+                    return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "product_template.xlsx");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _reponseDto.IsSuccess = false;
+                _reponseDto.ErrorMessages.Add(ex.Message);
+                _reponseDto.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            return _reponseDto;
+        }
+
         [HttpPost]
         [Route("create")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductDto))]
@@ -124,26 +173,29 @@ namespace Mango.Services.ProductAPI.Controllers
                     throw new Exception("No file uploaded");
                 }
                 var productDTOs = new List<ProductDto>();
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
                 using (var stream = new MemoryStream())
                 {
-                    file.CopyTo(stream);
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    await file.CopyToAsync(stream);
+                    using (var excelPackage = new ExcelPackage(stream))
                     {
-                        bool isHeadingRow = true;
-                        while (reader.Read()) //Each row of the file
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[SD.SheetNameProduct];
+                        if(worksheet == null )
                         {
-                            if (isHeadingRow)
-                            {
-                                isHeadingRow = false;
-                                continue;
-                            }
+                            _reponseDto.IsSuccess = false;
+                            _reponseDto.ErrorMessages.Add("Cannot find the same name sheet.");
+                            _reponseDto.StatusCode = HttpStatusCode.BadRequest;
+                            return BadRequest(_reponseDto);
+                        }
+                        for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                        {
                             productDTOs.Add(new ProductDto()
                             {
-                                Name = reader.GetValue(0).ToString(),
-                                Description = reader.GetValue(1).ToString(),
-                                Price = double.Parse(reader.GetValue(2).ToString()),
-                                CategoryName = reader.GetValue(3).ToString(),
+                                Name = worksheet.Cells[row, 1].Value.ToString(),
+                                Description = worksheet.Cells[row, 2].Value.ToString(),
+                                Price = double.Parse(worksheet.Cells[row, 3].Value.ToString()),
+                                CategoryName = worksheet.Cells[row, 4].ToString(),
+                                ImageUrl = worksheet.Cells[row, 5].ToString()
                             });
                         }
                     }
