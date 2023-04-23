@@ -78,9 +78,10 @@
 
 .content {
     margin-left: 250px;
-    min-height: 100vh;
     background: #ffffff;
     transition: 0.5s;
+    flex-grow: 1;
+    padding: 
 }
 
 @media (min-width: 992px) {
@@ -131,7 +132,6 @@
         color: var(--primary);
         background: #ffffff;
         border-color: var(--primary);
-        opacity: 0.8;
     }
 
     .sidebar .navbar .navbar-nav .nav-link i {
@@ -140,12 +140,6 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: #ffffff;
-    }
-
-    .sidebar .navbar .navbar-nav .nav-link:hover i,
-    .sidebar .navbar .navbar-nav .nav-link.active i {
-        background: var(--light);
     }
 
 .sidebar .navbar .dropdown-toggle::after {

@@ -35,13 +35,14 @@ namespace Mango.Web.Services
             return await base.SendAsync(request);
         }
 
-        public async Task<ResponseAPI> GetAllProductsAsync()
+        public async Task<ResponseAPI> GetAllProductsAsync(FilterProduct filter = null)
         {
             var request = new RequestAPI()
             {
                 AccessToken = "",
                 Method = SD.ApiType.GET,
-                Url = SD.ProductAPIBase
+                Url = SD.ProductAPIBase,
+                Data = filter
             };
             return await base.SendAsync(request);
         }
