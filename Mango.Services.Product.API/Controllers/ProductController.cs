@@ -2,9 +2,9 @@
 using Mango.Services.ProductAPI.Models;
 using Mango.Services.ProductAPI.Models.Dto;
 using Mango.Services.ProductAPI.Repository.IRepository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using ExcelDataReader;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
@@ -121,18 +121,38 @@ namespace Mango.Services.ProductAPI.Controllers
             {
                 if (file == null || file.Length == 0)
                 {
-                    return BadRequest("No file uploaded.");
-
+                    throw new Exception("No file uploaded");
                 }
-                string productFolder = Path.Combine(_env.WebRootPath, @"file\products");
-                string fileName = String.Format("{0}{1}", Guid.NewGuid().ToString(), file.Name);
-                string filePath = Path.Combine(productFolder, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                var productDTOs = new List<ProductDto>();
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                using (var stream = new MemoryStream())
                 {
-                    await file.CopyToAsync(stream);
+                    file.CopyTo(stream);
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        bool isHeadingRow = true;
+                        while (reader.Read()) //Each row of the file
+                        {
+                            if (isHeadingRow)
+                            {
+                                isHeadingRow = false;
+                                continue;
+                            }
+                            productDTOs.Add(new ProductDto()
+                            {
+                                Name = reader.GetValue(0).ToString(),
+                                Description = reader.GetValue(1).ToString(),
+                                Price = double.Parse(reader.GetValue(2).ToString()),
+                                CategoryName = reader.GetValue(3).ToString(),
+                            });
+                        }
+                    }
                 }
+                var productsFromDba = await _productRepo.CreateRangeProductsAsync(_mapper.Map<List<Product>>(productDTOs));
+                await _productRepo.SaveAsync();
                 _reponseDto.IsSuccess = true;
-                
+                _reponseDto.Result = _mapper.Map<List<ProductDto>>(productsFromDba);
+                _reponseDto.StatusCode = HttpStatusCode.OK;
                 return Ok(_reponseDto);
             }
             catch (Exception ex)
