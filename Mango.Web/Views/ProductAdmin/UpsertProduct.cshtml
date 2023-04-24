@@ -4,7 +4,7 @@
 <!-- Sidebar End -->
 
 <div class="content">
-    <div class="container">
+    <div class="container box-shadow bg-white mt-5 border-2">
         <div class="row">
             <div class="col-12 col-md-10">
                 <form method="post" asp-controller="ProductAdmin"
@@ -13,7 +13,7 @@
                     <input asp-for="@Model.ImageUrl" hidden readonly />
                     <div class="border p-3 row">
                         <div class="row pb-2">
-                            <h2 class="text-center">@(Model.ProductId == 0 ? "Create Product" : "Update Product")</h2>
+                            <h2 class="text-center text-secondary">@(Model.ProductId == 0 ? "Create Product" : "Update Product")</h2>
                             <hr />
                         </div>
                         <div class="mb-3 col-6">
@@ -56,8 +56,46 @@
 
             </div>
             <div class="col-12 col-md-2">
-                <img src="@Model.ImageUrl" alt="product-image" class="img-thumbnail" />
+                <img src="@(Model.ProductId == 0 ? "https://via.placeholder.com/250x150" : Model.ImageUrl)" alt="product-image" class="img-thumbnail" />
             </div>
         </div>
     </div>
+    @if (Model.ProductId == 0)
+    {
+        <div class="container mt-5 box-shadow bg-white border-2">
+            <div class="row">
+                <div class="col-12 col-md-10">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="border p-3 row">
+                            <div class="row pb-2">
+                                <h2 class="text-center text-secondary text-capitalize">@(Model.ProductId == 0 ? "Create products by file" : "Update Product")</h2>
+                                <hr />
+                            </div>
+                            <div class="mb-3 col-10">
+                                <label>File</label>
+                                <input accept="image/*" type="file"
+                                       name="file" class="form-control"/>
+                            </div>
+                            <div class="col-2">
+                                <form asp-action="GetProductTemplate">
+                                    <label>Template</label>
+                                    <input name="file" type="submit" value="Download" class="form-control bg-success" />
+                                </form>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary"
+                                        type="submit" style="width: 150px">
+                                    @(Model.ProductId == 0 ? "Create" : "Update")
+                                </button>
+                                <a class="btn btn-secondary mx-2" style="width: 150px" asp-action="Index" asp-controller="ProductAdmin">
+                                    Back to the list
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    }
 </div>
