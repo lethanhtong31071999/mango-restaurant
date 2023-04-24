@@ -1,6 +1,8 @@
 ﻿using Mango.Web.Models;
 using Mango.Web.Services.IServices;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text;
 
 namespace Mango.Web.Services
 {
@@ -17,7 +19,7 @@ namespace Mango.Web.Services
 
         public void Dispose()
         {
-            
+
         }
 
         public async Task<ResponseAPI> SendAsync(RequestAPI request)
@@ -31,7 +33,8 @@ namespace Mango.Web.Services
                 client.DefaultRequestHeaders.Clear();
                 if (request.Data != null)
                 {
-                    requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request.Data));
+                    requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request.Data), Encoding.UTF8,
+                                    "application/json");
                 }
                 switch (request.Method)
                 {
@@ -51,7 +54,7 @@ namespace Mango.Web.Services
                 HttpResponseMessage responseMessage = await client.SendAsync(requestMessage);
                 string responseContentJson = await responseMessage.Content.ReadAsStringAsync();
                 var res = JsonConvert.DeserializeObject<ResponseAPI>(responseContentJson);
-                if(res != null && res.IsSuccess)
+                if (res != null && res.IsSuccess)
                 {
                     ResponseModel.IsSuccess = res.IsSuccess;
                     ResponseModel.StatusCode = res.StatusCode;

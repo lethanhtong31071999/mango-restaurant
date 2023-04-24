@@ -43,5 +43,62 @@ namespace Mango.Web.Controllers
                 draw = 1,
             });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UpsertProduct([FromRoute] int id)
+        {
+            if (id == 0)
+            {
+                // Create
+                return View(new ProductDto());
+            }
+            // Update
+            var res = await _productService.GetProductByIdAsync(id);
+            var model = JsonConvert.DeserializeObject<ProductDto>(res.Result.ToString());
+            if (model == null) return RedirectToAction("Error", "Home");
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(ProductDto productDto)
+        {
+            if (productDto == null || !ModelState.IsValid) { return RedirectToAction("Error", "Home"); }
+            var res = await _productService.CreateProductAsync(productDto);      
+            if(res.IsSuccess)
+            {
+                TempData["success"] = "Upserted successfully";
+            }
+            return RedirectToAction("Index", "ProductAdmin");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct([FromForm]ProductDto productDto)
+        {
+            if (productDto == null || !ModelState.IsValid) { return RedirectToAction("Error", "Home"); }
+            var res = await _productService.UpdateProductAsync(productDto);
+            if (res.IsSuccess)
+            {
+                TempData["success"] = "Upserted successfully";
+            }
+            return RedirectToAction("Index", "ProductAdmin");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        {
+            if (id == 0) return RedirectToAction("Error", "Home");
+            var res = await _productService.GetProductByIdAsync(id);
+            var model = JsonConvert.DeserializeObject<ProductDto>(res.Result.ToString());
+            if (model == null) return RedirectToAction("Error", "Home");
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteProductById([FromRoute] int id, bool isTrash = true)
+        {
+            if (id == 0) return RedirectToAction("Error", "Home");
+            var res = await _productService.DeleteProductAsync(id);
+            return res.IsSuccess ? RedirectToAction("Index", "ProductAdmin") : RedirectToAction("Error", "Home");
+        }
     }
 }

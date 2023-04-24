@@ -1,0 +1,63 @@
+﻿@model ProductDto
+<!-- Sidebar Start -->
+<partial name="_SidebarAdminPartialView" />
+<!-- Sidebar End -->
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-10">
+                <form method="post" asp-controller="ProductAdmin"
+                      asp-action="@(Model.ProductId == 0 ? "CreateProduct" : "UpdateProduct")">
+                    <input asp-for="@Model.ProductId" hidden readonly />
+                    <input asp-for="@Model.ImageUrl" hidden readonly />
+                    <div class="border p-3 row">
+                        <div class="row pb-2">
+                            <h2 class="text-center">@(Model.ProductId == 0 ? "Create Product" : "Update Product")</h2>
+                            <hr />
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label asp-for="@Model.Name"></label>
+                            <input asp-for="@Model.Name" class="form-control" />
+                            <span class="text-danger" asp-validation-for="@Model.Name"></span>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label asp-for="@Model.Price"></label>
+                            <input asp-for="@Model.Price" class="form-control" />
+                            <span class="text-danger" asp-validation-for="@Model.Price"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="@Model.Description"></label>
+                            <textarea asp-for="@Model.Description" class="form-control"></textarea>
+                            <span class="text-danger" asp-validation-for="@Model.Description"></span>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label asp-for="@Model.CategoryName"></label>
+                            <input asp-for="@Model.CategoryName" class="form-control" />
+                            <span class="text-danger" asp-validation-for="@Model.CategoryName"></span>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label asp-for="@Model.ImageUrl"></label>
+                            <input accept="image/*" type="file"
+                                   id="uploadBox" name="file" class="form-control"
+                                   onchange="document.querySelector('.img-thumbnail').src = window.URL.createObjectURL(this.files[0])" />
+                        </div>
+                        <div>
+                            <button class="btn btn-primary"
+                                    type="submit" style="width: 150px">
+                                @(Model.ProductId == 0 ? "Create" : "Update")
+                            </button>
+                            <a class="btn btn-secondary mx-2" style="width: 150px" asp-action="Index" asp-controller="ProductAdmin">
+                                Back to the list
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-12 col-md-2">
+                <img src="@Model.ImageUrl" alt="product-image" class="img-thumbnail" />
+            </div>
+        </div>
+    </div>
+</div>

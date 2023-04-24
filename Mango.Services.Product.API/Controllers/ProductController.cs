@@ -217,7 +217,7 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
+        [Route("Update")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<object> UpdateProduct([FromBody] ProductDto productDto)

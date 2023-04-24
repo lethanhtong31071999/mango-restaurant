@@ -46,12 +46,14 @@ function loadProductTable() {
                 "width": "20%",
                 "render": function (productId) {
                     const upsertUrl = $('#product-table-admin').data('upsert-url');
+                    const deleteUrl = $('#product-table-admin').data('delete-url');
+
                     return `
                     <div class="d-flex justify-content-center" role="group">
                         <a class="btn btn-primary flex-grow-1 mx-1" href="${upsertUrl}/${productId}" >
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <a class="btn btn-danger flex-grow-1 mx-1" >
+                        <a class="btn btn-danger flex-grow-1 mx-1" href="${deleteUrl}/${productId}" >
                             <i class="bi bi-trash"></i>
                         </a>
                     </div>
