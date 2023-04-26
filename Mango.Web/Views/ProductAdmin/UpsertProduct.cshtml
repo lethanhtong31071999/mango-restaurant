@@ -67,26 +67,24 @@
                 <div class="col-12 col-md-10">
                     <form method="post" enctype="multipart/form-data">
                         <div class="border p-3 row">
-                            <div class="row pb-2">
+                            <div class="pb-2">
                                 <h2 class="text-center text-secondary text-capitalize">@(Model.ProductId == 0 ? "Create products by file" : "Update Product")</h2>
                                 <hr />
                             </div>
-                            <div class="mb-3 col-10">
+                            <div class="mb-3 col-12 col-sm-8 col-xl-10">
                                 <label>File</label>
-                                <input accept="image/*" type="file"
-                                       name="file" class="form-control"/>
+                                <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                   type="file"
+                                   name="file" class="form-control" />
                             </div>
-                            <div class="col-2">
-                                <form asp-action="GetProductTemplate">
-                                    <label>Template</label>
-                                    <input name="file" type="submit" value="Download" class="form-control bg-success" />
-                                </form>
+                            <div class="col-6 col-sm-4 col-xl-2">
+                                <label>Template</label>
+                                <a class="btn btn-outline-success d-block" role="button" onclick="downloadTemplateFile()">
+                                    Download<i class="bi bi-chevron-bar-down ms-2"></i>
+                                </a>
                             </div>
-                            <div>
-                                <button class="btn btn-primary"
-                                        type="submit" style="width: 150px">
-                                    @(Model.ProductId == 0 ? "Create" : "Update")
-                                </button>
+                            <div class="col-12 mt-3 mt-sm-0">
+                                <button class="btn btn-primary" type="submit" style="width: 150px">Upload File</button>
                                 <a class="btn btn-secondary mx-2" style="width: 150px" asp-action="Index" asp-controller="ProductAdmin">
                                     Back to the list
                                 </a>
@@ -96,6 +94,16 @@
                 </div>
             </div>
         </div>
-
     }
 </div>
+@section Scripts {
+    <script>
+        function downloadTemplateFile() {
+            const aElement = document.createElement('a');
+            document.body.appendChild(aElement);
+            aElement.href = "@String.Format("{0}/get-template-file",SD.ProductAPIBase)";
+            aElement.click();
+            document.body.removeChild(aElement);
+        }
+    </script>
+}

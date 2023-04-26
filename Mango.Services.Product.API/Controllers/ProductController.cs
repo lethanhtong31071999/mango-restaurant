@@ -127,7 +127,6 @@ namespace Mango.Services.ProductAPI.Controllers
                     byte[] fileContents = package.GetAsByteArray();
                     return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "product_template.xlsx");
                 }
-
             }
             catch (Exception ex)
             {
