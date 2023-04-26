@@ -7,10 +7,19 @@ function loadProductTable() {
         processing: true,
         serverSide: true,
         filter: true,
+        paging: true,
+        searching: true,
+        ordering: false,
+        responsive: true,
         pagingType: "simple_numbers",
         "ajax": {
             url: $('#product-table-admin').data('url'),
             type: "POST",
+            beforeSend: function () {
+                $('#product-table-admin tbody > tr').remove();
+            },   
+            complete: function () {
+            }
         },
         scrollY: '500px',
         scrollCollapse: true,

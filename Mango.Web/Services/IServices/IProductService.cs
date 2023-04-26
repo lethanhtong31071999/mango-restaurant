@@ -10,5 +10,6 @@ namespace Mango.Web.Services.IServices
         Task<ResponseAPI> CreateProductAsync(ProductDto productDto);
         Task<ResponseAPI> UpdateProductAsync(ProductDto productDto);
         Task<ResponseAPI> DeleteProductAsync(int productId);
+        Task<ResponseAPI> CreateProductsByFileAsync(IFormFile file);
     }
 }

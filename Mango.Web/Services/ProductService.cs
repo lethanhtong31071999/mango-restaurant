@@ -37,11 +37,17 @@ namespace Mango.Web.Services
 
         public async Task<ResponseAPI> GetAllProductsAsync(FilterProduct filter = null)
         {
+            var url = SD.ProductAPIBase;
+            var queryString = "";
+            if(filter != null)
+            {
+                queryString = $"?page={filter.Page}&length={filter.Length}";
+            }
             var request = new RequestAPI()
             {
                 AccessToken = "",
                 Method = SD.ApiType.GET,
-                Url = SD.ProductAPIBase,
+                Url = url + queryString,
                 Data = filter
             };
             return await base.SendAsync(request);
@@ -66,6 +72,17 @@ namespace Mango.Web.Services
                 Method = SD.ApiType.PUT,
                 Data = productDto,
                 Url = String.Format("{0}/Update", SD.ProductAPIBase)
+            };
+            return await base.SendAsync(request);
+        }
+        public async Task<ResponseAPI> CreateProductsByFileAsync(IFormFile file)
+        {
+            var request = new RequestAPI()
+            {
+                AccessToken = "",
+                Method = SD.ApiType.POST,
+                File = file,
+                Url = String.Format("{0}/create-by-file", SD.ProductAPIBase)
             };
             return await base.SendAsync(request);
         }

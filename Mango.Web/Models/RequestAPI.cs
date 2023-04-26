@@ -8,5 +8,6 @@ namespace Mango.Web.Models
         public string Url { get; set; }
         public string? AccessToken { get; set; } = null;
         public object Data { get; set; }
+        public IFormFile File { get; set; } = null;
     }
 }
