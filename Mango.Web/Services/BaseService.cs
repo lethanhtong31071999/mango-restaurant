@@ -31,11 +31,21 @@ namespace Mango.Web.Services
                 requestMessage.Headers.Add("Accept", "application/json");
                 requestMessage.RequestUri = new Uri(request.Url);
                 client.DefaultRequestHeaders.Clear();
-                if (request.Data != null)
+                if (request.File != null)
                 {
+                    // Handle case having files
+                    var multipartFormData = new MultipartFormDataContent();
+                    multipartFormData.Add(new StringContent(JsonConvert.SerializeObject(request.Data), Encoding.UTF8,"application/json"));
+                    multipartFormData.Add(new StreamContent(request.File.OpenReadStream()), "file", request.File.FileName);
+                    requestMessage.Content = multipartFormData;
+                }
+                else if (request.Data != null)
+                {
+                    // Handle normal cases
                     requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request.Data), Encoding.UTF8,
                                     "application/json");
                 }
+
                 switch (request.Method)
                 {
                     case SD.ApiType.POST:

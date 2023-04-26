@@ -65,7 +65,7 @@
         <div class="container mt-5 box-shadow bg-white border-2">
             <div class="row">
                 <div class="col-12 col-md-10">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" asp-action="CreateProductsByFile" asp-controller="ProductAdmin">
                         <div class="border p-3 row">
                             <div class="pb-2">
                                 <h2 class="text-center text-secondary text-capitalize">@(Model.ProductId == 0 ? "Create products by file" : "Update Product")</h2>

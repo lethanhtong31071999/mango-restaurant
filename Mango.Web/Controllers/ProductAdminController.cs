@@ -63,19 +63,7 @@ namespace Mango.Web.Controllers
         public async Task<IActionResult> CreateProduct(ProductDto productDto)
         {
             if (productDto == null || !ModelState.IsValid) { return RedirectToAction("Error", "Home"); }
-            var res = await _productService.CreateProductAsync(productDto);      
-            if(res.IsSuccess)
-            {
-                TempData["success"] = "Upserted successfully";
-            }
-            return RedirectToAction("Index", "ProductAdmin");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateProduct([FromForm]ProductDto productDto)
-        {
-            if (productDto == null || !ModelState.IsValid) { return RedirectToAction("Error", "Home"); }
-            var res = await _productService.UpdateProductAsync(productDto);
+            var res = await _productService.CreateProductAsync(productDto);
             if (res.IsSuccess)
             {
                 TempData["success"] = "Upserted successfully";
@@ -99,6 +87,29 @@ namespace Mango.Web.Controllers
             if (id == 0) return RedirectToAction("Error", "Home");
             var res = await _productService.DeleteProductAsync(id);
             return res.IsSuccess ? RedirectToAction("Index", "ProductAdmin") : RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct([FromForm] ProductDto productDto)
+        {
+            if (productDto == null || !ModelState.IsValid) { return RedirectToAction("Error", "Home"); }
+            var res = await _productService.UpdateProductAsync(productDto);
+            if (res.IsSuccess)
+            {
+                TempData["success"] = "Upserted successfully";
+            }
+            return RedirectToAction("Index", "ProductAdmin");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProductsByFile(IFormFile file)
+        {
+            if (file != null)
+            {
+                await _productService.CreateProductsByFileAsync(file);
+                return RedirectToAction("Index", "ProductAdmin");
+            }
+            return null;
         }
     }
 }

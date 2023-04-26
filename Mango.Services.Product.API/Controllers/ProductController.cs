@@ -30,7 +30,7 @@ namespace Mango.Services.ProductAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<object> GetProducts([FromQuery] FilterProduct filter)
+        public async Task<object> GetProducts([FromQuery]FilterProduct filter)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpPost]
         [Route("create-by-file")]
-        public async Task<object> CreateProductByFile(IFormFile file)
+        public async Task<object> CreateProductByFile([FromForm] IFormFile file)
         {
             try
             {
@@ -186,16 +186,19 @@ namespace Mango.Services.ProductAPI.Controllers
                             _reponseDto.StatusCode = HttpStatusCode.BadRequest;
                             return BadRequest(_reponseDto);
                         }
-                        for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                        else if(worksheet.Dimension.End.Row > 2)
                         {
-                            productDTOs.Add(new ProductDto()
+                            for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                             {
-                                Name = worksheet.Cells[row, 1].Value.ToString(),
-                                Description = worksheet.Cells[row, 2].Value.ToString(),
-                                Price = double.Parse(worksheet.Cells[row, 3].Value.ToString()),
-                                CategoryName = worksheet.Cells[row, 4].ToString(),
-                                ImageUrl = worksheet.Cells[row, 5].ToString()
-                            });
+                                productDTOs.Add(new ProductDto()
+                                {
+                                    Name = worksheet.Cells[row, 1].Value.ToString(),
+                                    Description = worksheet.Cells[row, 2].Value.ToString(),
+                                    Price = double.Parse(worksheet.Cells[row, 3].Value.ToString()),
+                                    CategoryName = worksheet.Cells[row, 4].ToString(),
+                                    ImageUrl = worksheet.Cells[row, 5].ToString()
+                                });
+                            }
                         }
                     }
                 }
