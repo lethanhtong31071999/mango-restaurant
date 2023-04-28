@@ -1,0 +1,7 @@
+* Build docker
+docker build -t [User/Repository:version] .
+=> Example: docker build -t ltt/mango-web:1.0
+
+* Watch ip for each container
+docker network inspect bridge
+=> Get IPv4Address
