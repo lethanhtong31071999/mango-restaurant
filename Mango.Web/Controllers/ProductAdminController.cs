@@ -3,6 +3,7 @@ using Mango.Web.Models.Dto;
 using Mango.Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Mango.Web.Controllers
 {
@@ -40,7 +41,7 @@ namespace Mango.Web.Controllers
                 data = pagination.Data,
                 recordsFiltered = pagination.TotalFilteredItems,
                 recordsTotal = pagination.TotalItems,
-                draw = 1,
+                draw = Convert.ToInt32(Request.Form["draw"].FirstOrDefault()),
             });
         }
 
