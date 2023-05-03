@@ -1,0 +1,8 @@
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.csproj.AssemblyReference.cache
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.AssemblyInfoInputs.cache
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.AssemblyInfo.cs
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.csproj.CoreCompileInputs.cache
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.MvcApplicationPartsAssemblyInfo.cache
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.RazorAssemblyInfo.cache
+D:\source-fork\mango-restaurant\Mango.Services.IdentityServer\obj\Debug\net5.0\Mango.Services.IdentityServer.RazorAssemblyInfo.cs
