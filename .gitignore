@@ -6,3 +6,5 @@ Mango.Web/bin
 
 resources/*
 Mango.Services.IdentityServer/obj/Debug
+Mango.Services.IdentityServer/bin
+Mango.Services.IdentityServer/obj
