@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 
 // Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("AzureConnection"))
+    options.UseSqlServer(configuration.GetConnectionString("MacOSConnection"))
 );
 
 // Injection dependency
